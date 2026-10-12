@@ -1,0 +1,15 @@
+Diyanet Abay and Hamdullah fonts downloaded from https://kuran.diyanet.gov.tr/Yayinlar
+on 2026-10-12 and converted without subsetting to WOFF2.
+
+Abay (Emine): Copyright (c) 2012 by Muhammet Abay. All rights reserved.
+Hamdullah (Shaikh Hamdullah Mushaf): Copyright (c) 2011 by Muhammet Abay.
+All rights reserved.
+
+The downloads contain no explicit redistribution license or license URL.
+Included at the project owner's request. This notice records provenance and
+copyright; it does not grant a license. Confirm redistribution permission
+before a public repository release or publication of these font files.
+
+Original downloads:
+https://webdosya.diyanet.gov.tr/kuran/kuranikerim/dosyalar/font/KuranKerimFontAbay.ttf
+https://webdosya.diyanet.gov.tr/kuran/kuranikerim/dosyalar/font/KuranKerimFontHamdullah.ttf

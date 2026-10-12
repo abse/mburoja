@@ -1,0 +1,23 @@
+{
+  "name": "mburoja",
+  "version": "2.0.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "preview": "npm run build && node scripts/serve.mjs",
+    "preview:lan": "npm run build && node scripts/serve.mjs --lan",
+    "check": "npm run build && node scripts/check.mjs",
+    "release:prepare": "npm run check && node scripts/prepare-public.mjs",
+    "cf:login": "wrangler login",
+    "cf:dev": "npm run build && wrangler dev --config wrangler.jsonc",
+    "cf:check": "npm run check && wrangler deploy --dry-run --config wrangler.jsonc",
+    "cf:deploy": "npm run check && wrangler deploy --config wrangler.jsonc"
+  },
+  "devDependencies": {
+    "wrangler": "^4.148.0"
+  }
+}

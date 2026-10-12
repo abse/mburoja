@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <title>Mburoja e Muslimanit | Fortress of the Muslim | Hisnul Muslim | Mburoja e Muslimanit Shqip</title>
+  
+
+	<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no;" />
+	<meta name="keywords" content="Mburoja e Muslimanit, Dhikri i mengjesit, mburoja mp3, mburoja audio, namazi, dhikri, dhiker, ihsaan, mburoja shqip, Mburoja e Muslimanit shqip, Mburoja e Muslimanit, Mburoja e Muslimanit, Mburoja e Muslimanit, Mburoja e Muslimanit, Mburoja e Muslimanit, Mburoja e Muslimanit, Mburoja e Muslimanit, Mburoja e Muslimanit, Mburoja e Muslimanit, Mburoja e Muslimanit, Mburoja e Muslimanit, Mburoja e Muslimanit, Mburoja e Muslimanit, Mburoja e Muslimanit, Mburoja e Muslimanit, Mburoja e Muslimanit, Mburoja e Muslimanit, Mburoja e Muslimanit, Mburoja e Muslimanit, Mburoja e Muslimanit, Mburoja e Muslimanit, mburoja shqip, mburoja shqip, mburoja shqip, mburoja shqip, mburoja shqip, mburoja shqip, mburoja shqip, mburoja shqip, mburoja shqip">
+	<meta name="description" content="Mburoja e Muslimanit është një libër i begatë që përmbledh lutjet dhe dhikrin (përmendjen e Allahut) për të cilin ka nevojë muslimani gjatë ditës dhe natës si dhe në raste të ndryshme me të cilat përballet gjatë jetës së tij. Mburoja e Muslimanit, Mburoja e Muslimanit, Mburoja e Muslimanit, Mburoja e Muslimanit, Mburoja e Muslimanit, Mburoja e Muslimanit, Mburoja e Muslimanit, Mburoja e Muslimanit, Mburoja e Muslimanit, Mburoja e Muslimanit, Mburoja e Muslimanit, Mburoja e Muslimanit, Mburoja e Muslimanit, Mburoja e Muslimanit, Mburoja e Muslimanit, Mburoja e Muslimanit, Mburoja e Muslimanit, Mburoja e Muslimanit, Mburoja e Muslimanit, Mburoja e Muslimanit, Mburoja e Muslimanit">
+	<meta name="norton-safeweb-site-verification" content="xnw-kvgluq9s2mw060ujvis5oa26klghfnsp3ukft-454zy6fub1s8s6amb3ncfbgen20uaw7cfqhj35n48-f1rr5phpx8hx7opbe8l0u-l5a6ut-0srl5zuuft6jvc6" />
+	
+	<script src="jquery.min.js" type="text/javascript" charset="utf-8"></script>
+	<link rel="stylesheet" href="themes/mburoja.min.css">
+	<link rel="stylesheet" href="jquery.mobile.structure-1.0.1.min.css" type="text/css" charset="utf-8">
+	<script type="text/javascript" charset="utf-8" src="phonegap-1.4.1.js"></script>
+	    
+	
+	<script type="text/javascript">
+
+	if ((navigator.userAgent.match(/iPhone/i)) || (navigator.userAgent.match(/iPod/i))) {
+	   location.replace("https://itunes.apple.com/app/mburoja-e-muslimanit/id566860006?ls=1&mt=8");
+	}
+
+	</script>
+	
+    <script type="text/javascript">
+        function onBodyLoad(){
+
+	   }
+
+
+
+
+
+    	$(document).bind("mobileinit", function(){
+			
+			
+		    $.support.touchOverflow = true;
+		    $.mobile.touchOverflowEnabled = true;
+
+
+        });
+		
+		
+		function getPageHref(theID){
+			return $("#"+theID).attr("href");
+		}
+		
+
+		function getPageTitle(theID){
+			return $("#"+theID).text();
+
+		}
+		
+        $("#Favourites").live('pagebeforeshow', function() {
+			currentList=getFavList();
+			$("#FavouritesTable").html("")
+	        for (var i=0; i < currentList.length; i++) {
+				
+				$("#FavouritesTable").append('<li><a href="'+getPageHref(currentList[i])+'">'+getPageTitle(currentList[i])+'</a></li>');
+				
+				$("#FavouritesTable").listview("refresh");
+			}
+			
+		
+		});
+		
+		
+		function getFavList(){
+		
+
+
+			myFavs=localStorage.getItem("myFavs");
+			
+						if(myFavs==null)	{
+							localStorage.setItem("myFavs", JSON.stringify([])); 
+							myFavs=JSON.stringify([]);
+							console.log(myFavs)
+				       }
+		
+		
+		return JSON.parse(myFavs);
+	}
+		
+		function addPageToFavs(theButton,pageID){
+			
+			currentList=getFavList();
+			
+			//check incase button fired twice
+			if(jQuery.inArray(pageID,currentList)==-1){
+				currentList.push(pageID)
+					currentList.sort(function(a,b){return (parseInt(a.replace(/[^0-9]/g,""))-parseInt(b.replace(/[^0-9]/g,"")))});
+			
+				swapFavButtonRole(theButton)
+				localStorage.setItem("myFavs", JSON.stringify(currentList)); 
+			}
+
+		
+			
+			
+		}
+		
+
+		
+
+		function removePageToFavs(theButton,pageID){
+			
+			currentList=getFavList();
+			
+			itemPos=jQuery.inArray(pageID,currentList)
+			//check incase button fired twice
+			if(itemPos!=-1){
+				currentList.splice(itemPos,1)
+				swapFavButtonRole(theButton)
+				localStorage.setItem("myFavs", JSON.stringify(currentList)); 
+			}
+			
+			
+		}
+
+		
+		function swapFavButtonRole(theButton){
+			
+			if(theButton.attr("data-role")=="favs-add"){
+				favButton=getFavButton("Remove");
+				}else{
+					favButton=getFavButton("Add");
+				}
+
+				parentHeader=theButton.parent();
+				$(theButton).replaceWith(favButton);
+				parentHeader.find("[data-type=button]").buttonMarkup();
+
+		}
+
+        $("a[data-role=favs-add]").live('click', function() {
+			addPageToFavs($(this),$.mobile.activePage.attr("id"))
+		});
+
+        $("a[data-role=favs-remove]").live('click', function() {
+			removePageToFavs($(this),$.mobile.activePage.attr("id"))
+		});
+
+		
+		
+		
+		
+		
+        $("div[data-can-be-fav=true]").live('pagebeforeshow', function() {
+			
+		currentList=getFavList();
+
+		pageID=$(this).attr("id");
+			
+		if(jQuery.inArray(pageID,currentList)==-1){
+				favButton=getFavButton("Add");
+			}else{
+				favButton=getFavButton("Remove");
+			}
+
+			
+			$(this).find("[data-role=header]").append(favButton).find("[data-type=button]").buttonMarkup();
+
+		
+		})		
+
+
+		function getFavButton(type){
+	
+			if(type=="Add"){
+				return '<a  class="ui-btn-right" data-type="button" data-icon="star" data-role="favs-add">Ruaje</a>'
+			}else{
+				return '<a  class="ui-btn-right" data-type="button" data-icon="delete" data-role="favs-remove">Fshije</a>'		
+			}
+	
+		}
+
+            $("div[data-has-audio=true]").live('pageshow', function() {
+
+                $(this).find(".playPauseButton").click(function() {     
+
+		            audio = $.mobile.activePage.find("#"+$(this).data("audioElement")).get(0);
+
+                    
+                  if (audio.paused) {
+                      audio.play();
+                  } else { (audio).pause(); } 
+                });
+
+
+            })
+    
+    </script>
+
+	<script src="jquery.mobile-1.0.1.js" type="text/javascript" charset="utf-8"></script>
+
+    
+    <style>
+    html, body{
+        margin:0;
+        padding:0;
+        width:100%;
+        height:100%;
+        border:0;
+        -webkit-touch-callout:none;
+        -webkit-user-select: none;
+    }
+
+.navBar{
+	text-align:center;
+}
+
+
+
+    </style>
+  </head>
+  <body onload="onBodyLoad()">
+
+<div data-role="page" id="Page54" data-add-back-btn="true" data-has-audio="true" data-can-be-fav="true">
+
+	<div data-role="header" data-position="fixed" data-theme="e">
+			<h1>Kur të vdes ndonjë njeri</h1>
+		</div><!-- /header -->
+
+		<div data-role="content">	
+		<h2 align="right">اللَّهُمَّ اغْفِرْ لِفُلاَنٍ – (باسمه) - وَارْفَعْ دَرَجَتَهُ فِي الْمَهْدِيِّينَ وَاخْلُفْهُ فِي عَقِبِهِ فِي الْغَابِرِينَ وَاغْفِرْ لَنَا وَلَهُ يَارَبَّ الْعَالَمِينَ وَافْسَحْ لَهُ فِي قَبْرِهِ وَنَوِّرْ لَهُ فِيهِ</h2>
+		<p><strong>All-llahumme-gfir li fulan (e emëron), ve-rfa’ derexhetehu fil-mehdijjín veh-luf-hu fi ‘akibihi fil-gábirín, va-gfir lena ve lehu ja Rabbel-’álemin, vef-sah lehu fi kabrihi ve nevvir lehu fíhi.</strong></p>
+		<p>O Zot, fale filanin (e emëron) dhe ngrite atë në shkallën e të udhëzuarve, zëvendësoe atë me ata që mbesin nga pasardhësit e tij, na i fal mëkatet tona dhe të atij, o Zot i të gjitha botërave, zgjeroja varrin dhe ndriçoja atë.<p>
+		<p><small>Muslimi 2/634.</small></p>
+
+		<div class="navBar"><div class="playPauseButton" data-audio-element="myHTMLAudioElement54-1" data-role="button" data-inline="true" data-theme="e">Dëgjoje</div></div>
+
+			<audio id="myHTMLAudioElement54-1">
+				<source src="MP3/54-1.mp3" type="audio/mp3" />
+			</audio>
+
+		</div><!-- /content -->
+
+	</div><!-- /page -->
+	
+  </body>
+</html>

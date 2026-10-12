@@ -1,0 +1,325 @@
+﻿<!DOCTYPE html>
+<html lang='sq-MK'>
+  <head>
+  <title>Mburoja e Muslimanit | Fortress of the Muslim | Hisnul Muslim | Mburoja e Muslimanit Shqip</title>
+	<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no;" />
+	<meta name="keywords" content="Mburoja e Muslimanit, Dhikri i mengjesit, mburoja mp3, mburoja audio, namazi, dhikri, dhiker, ihsaan, mburoja shqip, Mburoja e Muslimanit shqip, Mburoja e Muslimanit, Mburoja e Muslimanit, Mburoja e Muslimanit, Mburoja e Muslimanit, Mburoja e Muslimanit, Mburoja e Muslimanit, Mburoja e Muslimanit, Mburoja e Muslimanit, Mburoja e Muslimanit, Mburoja e Muslimanit, Mburoja e Muslimanit, Mburoja e Muslimanit, Mburoja e Muslimanit, Mburoja e Muslimanit, Mburoja e Muslimanit, Mburoja e Muslimanit, Mburoja e Muslimanit, Mburoja e Muslimanit, Mburoja e Muslimanit, Mburoja e Muslimanit, Mburoja e Muslimanit, mburoja shqip, mburoja shqip, mburoja shqip, mburoja shqip, mburoja shqip, mburoja shqip, mburoja shqip, mburoja shqip, mburoja shqip">
+	<meta name="description" content="Mburoja e Muslimanit është një libër i begatë që përmbledh lutjet dhe dhikrin (përmendjen e Allahut) për të cilin ka nevojë muslimani gjatë ditës dhe natës si dhe në raste të ndryshme me të cilat përballet gjatë jetës së tij. Mburoja e Muslimanit, Mburoja e Muslimanit, Mburoja e Muslimanit, Mburoja e Muslimanit, Mburoja e Muslimanit, Mburoja e Muslimanit, Mburoja e Muslimanit, Mburoja e Muslimanit, Mburoja e Muslimanit, Mburoja e Muslimanit, Mburoja e Muslimanit, Mburoja e Muslimanit, Mburoja e Muslimanit, Mburoja e Muslimanit, Mburoja e Muslimanit, Mburoja e Muslimanit, Mburoja e Muslimanit, Mburoja e Muslimanit, Mburoja e Muslimanit, Mburoja e Muslimanit, Mburoja e Muslimanit">
+	<script src="jquery.min.js" type="text/javascript" charset="utf-8"></script>
+	<link rel="stylesheet" href="themes/mburoja.min.css">
+	<link rel="stylesheet" href="jquery.mobile.structure-1.0.1.min.css" type="text/css" charset="utf-8">
+	<script type="text/javascript" charset="utf-8" src="phonegap-1.4.1.js"></script>
+	<link rel="apple-touch-icon" sizes="180x180" href="themes/apple-touch-icon.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="themes/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="themes/favicon-16x16.png">
+	<link rel="manifest" href="themes/site.webmanifest">
+    <script type="text/javascript">
+        function onBodyLoad(){
+		}
+    	$(document).bind("mobileinit", function(){
+		    $.support.touchOverflow = true;
+		    $.mobile.touchOverflowEnabled = true;
+        });
+		
+		function getPageHref(theID){
+			return $("#"+theID).attr("href");
+		}
+		
+		function getPageTitle(theID){
+			return $("#"+theID).text();
+		}
+		
+        $("#Favourites").live('pagebeforeshow', function() {
+			currentList=getFavList();
+			$("#FavouritesTable").html("")
+	        for (var i=0; i < currentList.length; i++) {
+				$("#FavouritesTable").append('<li><a href="'+getPageHref(currentList[i])+'">'+getPageTitle(currentList[i])+'</a></li>');
+				$("#FavouritesTable").listview("refresh");
+			}
+		});
+		
+		function getFavList(){
+			myFavs=localStorage.getItem("myFavs");
+			if(myFavs==null)	{
+				localStorage.setItem("myFavs", JSON.stringify([])); 
+				myFavs=JSON.stringify([]);
+				console.log(myFavs)
+			}
+			return JSON.parse(myFavs);
+		}
+		
+		function addPageToFavs(theButton,pageID){
+			currentList=getFavList();
+			//check incase button fired twice
+			if(jQuery.inArray(pageID,currentList)==-1){
+				currentList.push(pageID)
+				currentList.sort(function(a,b){return (parseInt(a.replace(/[^0-9]/g,""))-parseInt(b.replace(/[^0-9]/g,"")))});
+				swapFavButtonRole(theButton)
+				localStorage.setItem("myFavs", JSON.stringify(currentList)); 
+			}
+		}
+		
+		function removePageToFavs(theButton,pageID){
+			currentList=getFavList();
+			itemPos=jQuery.inArray(pageID,currentList)
+			//check incase button fired twice
+			if(itemPos!=-1){
+				currentList.splice(itemPos,1)
+				swapFavButtonRole(theButton)
+				localStorage.setItem("myFavs", JSON.stringify(currentList)); 
+			}
+		}
+		
+		function swapFavButtonRole(theButton){
+			if(theButton.attr("data-role")=="favs-add"){
+				favButton=getFavButton("Remove");
+			}else{
+				favButton=getFavButton("Add");
+			}
+			parentHeader=theButton.parent();
+			$(theButton).replaceWith(favButton);
+			parentHeader.find("[data-type=button]").buttonMarkup();
+		}
+
+        $("a[data-role=favs-add]").live('click', function() {
+			addPageToFavs($(this),$.mobile.activePage.attr("id"))
+		});
+
+        $("a[data-role=favs-remove]").live('click', function() {
+			removePageToFavs($(this),$.mobile.activePage.attr("id"))
+		});
+
+        $("div[data-can-be-fav=true]").live('pagebeforeshow', function() {
+			currentList=getFavList();
+			pageID=$(this).attr("id");
+			if(jQuery.inArray(pageID,currentList)==-1){
+				favButton=getFavButton("Add");
+			}else{
+				favButton=getFavButton("Remove");
+			}
+			$(this).find("[data-role=header]").append(favButton).find("[data-type=button]").buttonMarkup();
+		})		
+
+		function getFavButton(type){
+			if(type=="Add"){
+				return '<a  class="ui-btn-right" data-type="button" data-icon="star" data-role="favs-add">Ruaje</a>'
+			}else{
+				return '<a  class="ui-btn-right" data-type="button" data-icon="delete" data-role="favs-remove">Fshije</a>'		
+			}
+		}
+		$("div[data-has-audio=true]").live('pageshow', function() {
+			$(this).find(".playPauseButton").click(function() {     
+				audio = $.mobile.activePage.find("#"+$(this).data("audioElement")).get(0);
+				if (audio.paused) {
+					audio.play();
+				} else {
+					(audio).pause();
+				} 
+			});
+		})
+    </script>
+	<script src="jquery.mobile-1.0.1.js" type="text/javascript" charset="utf-8"></script>
+    <style>
+		html, body{
+			margin:0;
+			padding:0;
+			width:100%;
+			height:100%;
+			border:0;
+			-webkit-touch-callout:none;
+			-webkit-user-select: none;
+		}
+		.navBar{
+			text-align:center;
+		}
+    </style>
+  </head>
+  <body onload="onBodyLoad()">
+
+      <div data-role="page" id="home"> 
+      	<div data-role="header" data-add-back-btn="true" data-position="fixed">
+			<h1>Mburoja e Muslimanit</h1>
+    	</div>  <!-- /header -->
+
+      	<div data-role="content" data-theme="c">
+
+            <ul data-role="listview" data-theme="c" data-filter="true">
+            	<li><a href="Page1.html" id="Page1">1. Kur të zgjohemi nga gjumi</a></li>
+            	<li><a href="Page2.html" id="Page2">2. Kur të veshim ndonjë rrobë</a></li>
+            	<li><a href="Page3.html" id="Page3">3. Kur të veshim ndonjë rrobë të re</a></li>
+            	<li><a href="Page4.html" id="Page4">4. Duaja për tjetrin kur vesh rrobe të reja</a></li>
+            	<li><a href="Page5.html" id="Page5">5. Kur e zhveshim rrobën</a></li>
+            	<li><a href="Page6.html" id="Page6">6. Para hyrjes në nevojtore</a></li>
+            	<li><a href="Page7.html" id="Page7">7. Pasi të dalim nga nevojtorja</a></li>
+            	<li><a href="Page8.html" id="Page8">8. Kur fillojmë abdesin</a></li>
+            	<li><a href="Page9.html" id="Page9">9. Kur mbarojmë abdesin</a></li>
+            	<li><a href="Page10.html" id="Page10">10. Kur të dalim nga shtëpia</a></li>
+            	<li><a href="Page11.html" id="Page11">11. Kur të hymë në shtëpi</a></li>
+            	<li><a href="Page12.html" id="Page12">12. Gjatë rrugës për në xhami</a></li>
+            	<li><a href="Page13.html" id="Page13">13. Kur të hymë në xhami</a></li>
+            	<li><a href="Page14.html" id="Page14">14. Kur të dalim nga xhamia</a></li>
+            	<li><a href="Page15.html" id="Page15">15. Duaja e Ezanit</a></li>
+            	<li><a href="Page16.html" id="Page16">16. Duaja në fillim të namazit</a></li>
+            	<li><a href="Page17.html" id="Page17">17. Duaja në ruku</a></li>
+            	<li><a href="Page18.html" id="Page18">18. Duaja kur ngritemi nga rukuja</a></li>
+            	<li><a href="Page19.html" id="Page19">19. Duaja në sexhde</a></li>
+            	<li><a href="Page20.html" id="Page20">20. Duaja në ulje në mes sexhdeve</a></li>
+            	<li><a href="Page21.html" id="Page21">21. Duaja në sexhde gjatë leximit të Kur'anit</a></li>
+            	<li><a href="Page22.html" id="Page22">22. Tesheh-hudi</a></li>
+            	<li><a href="Page23.html" id="Page23">23. Salavatet për Pejgamberin s.a.v.s. pas tesheh-hudit</a></li>
+            	<li><a href="Page24.html" id="Page24">24. Duaja pas tesheh-hudit të fundit, para selamit</a></li>
+            	<li><a href="Page25.html" id="Page25">25. Dhikri pas përfundimit të namazit farz</a></li>
+            	<li><a href="Page26.html" id="Page26">26. Duaja e istihare namazit</a></li>
+            	<li><a href="Page27.html" id="Page27">27. Dhikri i mëngjesit dhe i mbrëmjes</a></li>
+            	<li><a href="Page28.html" id="Page28">28. Dhikri para fjetjes</a></li>
+            	<li><a href="Page29.html" id="Page29">29. Kur rrotullohemi në gjumë</a></li>
+            	<li><a href="Page30.html" id="Page30">30. Nëse frikësohemi në gjumë</a></li>
+            	<li><a href="Page31.html" id="Page31">31. Nëse shohim ëndërr</a></li>
+            	<li><a href="Page32.html" id="Page32">32. Duaja e kunutit</a></li>
+            	<li><a href="Page33.html" id="Page33">33. Dhikri pas namazit të vitrit</a></li>
+            	<li><a href="Page34.html" id="Page34">34. Kur brengosemi ose jemi të pikëlluar</a></li>
+            	<li><a href="Page35.html" id="Page35">35. Kur kemi vështirësi</a></li>
+            	<li><a href="Page36.html" id="Page36">36. Kur takohemi me armikun ose njerëzit me pozitë</a></li>
+            	<li><a href="Page37.html" id="Page37">37. Kur kemi frikë nga dëmi i sultanit</a></li>
+            	<li><a href="Page38.html" id="Page38">38. Duaja kundër armikut</a></li>
+            	<li><a href="Page39.html" id="Page39">39. Kur kemi frikë nga një popull</a></li>
+            	<li><a href="Page40.html" id="Page40">40. Kur na kaplon dyshimi në besim</a></li>
+            	<li><a href="Page41.html" id="Page41">41. Duaja e atij që është ngarkuar me borxhe</a></li>
+            	<li><a href="Page42.html" id="Page42">42. Kur kemi vesvese në namaz dhe gjatë recitimit të kur'anit</a></li>
+            	<li><a href="Page43.html" id="Page43">43. Kur na vështirësohet ndonjë çështje</a></li>
+            	<li><a href="Page44.html" id="Page44">44. Kur bëjmë ndonjë mëkat</a></li>
+            	<li><a href="Page45.html" id="Page45">45. Duaja për largimin  e shejtanit dhe pëshpëritjes të tij</a></li>
+            	<li><a href="Page46.html" id="Page46">46. Kur na ndodh diçka e papëlqyer</a></li>
+            	<li><a href="Page47.html" id="Page47">47. Përgëzimet për fëmijë</a></li>
+            	<li><a href="Page48.html" id="Page48">48. Duaja për mbrojtjen e fëmijëve</a></li>
+            	<li><a href="Page49.html" id="Page49">49. Duaja për të sëmurin që e vizitojmë</a></li>
+            	<li><a href="Page50.html" id="Page50">50. Vlera e vizitës të të sëmurit</a></li>
+            	<li><a href="Page51.html" id="Page51">51. Duaja për të sëmurin në prag të vdekjes</a></li>
+            	<li><a href="Page52.html" id="Page52">52. Përkujtimi i shehadetit atij që është në prag të vdekjes</a></li>
+            	<li><a href="Page53.html" id="Page53">53. Kur të na ndodh ndonjë fatkeqësi</a></li>
+            	<li><a href="Page54.html" id="Page54">54. Kur të vdes ndonjë njeri</a></li>
+            	<li><a href="Page55.html" id="Page55">55. Duaja për të vdekurin gjatë namazit të xhenazes</a></li>
+            	<li><a href="Page56.html" id="Page56">56. Duaja e xhenazes për fëmijë</a></li>
+            	<li><a href="Page57.html" id="Page57">57. Ngushëllimi</a></li>
+            	<li><a href="Page58.html" id="Page58">58. Kur e lëshojmë të vdekurin në varr</a></li>
+            	<li><a href="Page59.html" id="Page59">59. Pas varrosjes të të vdekurit</a></li>
+            	<li><a href="Page60.html" id="Page60">60. Kur të vizitojmë varrezat</a></li>
+            	<li><a href="Page61.html" id="Page61">61. Kur të fryen era e fortë</a></li>
+            	<li><a href="Page62.html" id="Page62">62. Kur të murmuron</a></li>
+            	<li><a href="Page63.html" id="Page63">63. Duaja e shiut</a></li>
+            	<li><a href="Page64.html" id="Page64">64. Kur të bie shi</a></li>
+            	<li><a href="Page65.html" id="Page65">65. Pasi të ketë rënë shi</a></li>
+            	<li><a href="Page66.html" id="Page66">66. Duaja kundër vërshimës</a></li>
+            	<li><a href="Page67.html" id="Page67">67. Kur të shohim hënën e re</a></li>
+            	<li><a href="Page68.html" id="Page68">68. Duaja e agjëruesit kur bën iftar</a></li>
+            	<li><a href="Page69.html" id="Page69">69. Duaja para ushqimit</a></li>
+            	<li><a href="Page70.html" id="Page70">70. Duaja pas ushqimit</a></li>
+            	<li><a href="Page71.html" id="Page71">71. Duaja e mysafirit për nikoqirin</a></li>
+            	<li><a href="Page72.html" id="Page72">72. Duaja për atë që jep për të pirë ujë ose dëshiron këtë</a></li>
+            	<li><a href="Page73.html" id="Page73">73. Kur bëjmë iftar në ndonjë familje</a></li>
+            	<li><a href="Page74.html" id="Page74">74. Duaja e agjëruesit kur i ofrohet ushqimi dhe nuk ha</a></li>
+            	<li><a href="Page75.html" id="Page75">75. Përgjegjia e agjëruesit nëse ofendohet</a></li>
+            	<li><a href="Page76.html" id="Page76">76. Duaja kur shohim pemën e parë të posapjekur</a></li>
+            	<li><a href="Page77.html" id="Page77">77. Duaja e atij që teshtin</a></li>
+            	<li><a href="Page78.html" id="Page78">78. Kur teshtin ndonjë jobesimtar</a></li>
+            	<li><a href="Page79.html" id="Page79">79. Duaja për të posamartuarit</a></li>
+            	<li><a href="Page80.html" id="Page80">80. Duaja e dhëndrrit kur martohet ose kur blen kafshë</a></li>
+            	<li><a href="Page81.html" id="Page81">81. Duaja para se t'i afrohemi bashkëshortes</a></li>
+            	<li><a href="Page82.html" id="Page82">82. Kur të hidhërohemi</a></li>
+            	<li><a href="Page83.html" id="Page83">83. Kur të shohim ndonjë njeri me të meta</a></li>
+            	<li><a href="Page84.html" id="Page84">84. Dhikri gjatë ndonjë tubimi</a></li>
+            	<li><a href="Page85.html" id="Page85">85. Duaja pas përfundimit të tubimit</a></li>
+            	<li><a href="Page86.html" id="Page86">86. Përgjegjia e duasë për faljen e mëkateve</a></li>
+            	<li><a href="Page87.html" id="Page87">87. Duaja që i thuhet atij që të bën ndonjë të mirë</a></li>
+            	<li><a href="Page88.html" id="Page88">88. Dhikri pë mbrojtjen nga dexh-xhalli</a></li>
+            	<li><a href="Page89.html" id="Page89">89. Duaja për atë që të thotë që të do për hir të All-llahut</a></li>
+            	<li><a href="Page90.html" id="Page90">90. Duaja për atë që të ka ofruar pasuri</a></li>
+            	<li><a href="Page91.html" id="Page91">91. Duaja për atë që të ka borxh dhe ta kthen</a></li>
+            	<li><a href="Page92.html" id="Page92">92. Duaja e frikës nga shirku</a></li>
+            	<li><a href="Page93.html" id="Page93">93. Duaja për atë që të thotë All-llahu të shpërbleftë</a></li>
+            	<li><a href="Page94.html" id="Page94">94. Duaja e urrejtjes të parashikimit</a></li>
+            	<li><a href="Page95.html" id="Page95">95. Kur ngjitemi ne mjetin e udhëtimit</a></li>
+            	<li><a href="Page96.html" id="Page96">96. Duaja e udhëtimit</a></li>
+            	<li><a href="Page97.html" id="Page97">97. Duaja e hyrjes në ndonjë fshat apo qytet</a></li>
+            	<li><a href="Page98.html" id="Page98">98. Duaja e hyrjes në treg</a></li>
+            	<li><a href="Page99.html" id="Page99">99. Duaja kur të pengohet mjeti i udhëtimit</a></li>
+            	<li><a href="Page100.html" id="Page100">100. Duaja e udhëtarit për atë që nuk udhëton</a></li>
+            	<li><a href="Page101.html" id="Page101">101. Duaja e atij që nuk udhëton për udhëtarin</a></li>
+            	<li><a href="Page102.html" id="Page102">102. Tekbiri dhe tesbihu gjatë udhëtimit</a></li>
+            	<li><a href="Page103.html" id="Page103">103. Duaja e udhëtarit para agimit të mëngjesit</a></li>
+            	<li><a href="Page104.html" id="Page104">104. Duaja kur të ndalemi në ndonjë vend</a></li>
+            	<li><a href="Page105.html" id="Page105">105. Duaja e kthimit nga udhëtimi</a></li>
+            	<li><a href="Page106.html" id="Page106">106. Kur të marrim lajm të mirë ose të keq</a></li>
+            	<li><a href="Page107.html" id="Page107">107. Vlera e salavatit mbi pejgamberin s.a.v.s.</a></li>
+            	<li><a href="Page108.html" id="Page108">108. Vlera e përhapjes së selamit</a></li>
+            	<li><a href="Page109.html" id="Page109">109. Kthimi i selamit nga jobesimtari</a></li>
+            	<li><a href="Page110.html" id="Page110">110. Kur dëgjojmë gjelin ose kur pall gomari</a></li>
+            	<li><a href="Page111.html" id="Page111">111. Kur dëgjojmë lehjen e qenve natën</a></li>
+            	<li><a href="Page112.html" id="Page112">112. Duaja për atë që e ke ofenduar</a></li>
+            	<li><a href="Page113.html" id="Page113">113. Si e lavdëron muslimani muslimanin</a></li>
+            	<li><a href="Page114.html" id="Page114">114. Kur të lavdëron dikush</a></li>
+            	<li><a href="Page115.html" id="Page115">115. Telbia për haxhxh dhe umre</a></li>
+            	<li><a href="Page116.html" id="Page116">116. Tekbiri kur i afrohemi haxherul-esvedit</a></li>
+            	<li><a href="Page117.html" id="Page117">117. Duaja ndërmjet ruknul-jemanit dhe haxherul-esvedit</a></li>
+            	<li><a href="Page118.html" id="Page118">118. Duaja e qëndrimit mbi Saffa dhe Merve</a></li>
+            	<li><a href="Page119.html" id="Page119">119. Duaja në ditën e Arafatit</a></li>
+            	<li><a href="Page120.html" id="Page120">120. Dhikri te Mesh'ar El-Haraam</a></li>
+            	<li><a href="Page121.html" id="Page121">121. Tekbiri gjatë gjuajtjes së gurëve</a></li>
+            	<li><a href="Page122.html" id="Page122">122. Kur dëgjojmë ndonjë lajm të çuditshëm dhe të gëzueshëm</a></li>
+            	<li><a href="Page123.html" id="Page123">123. Kur të marrim ndonjë lajm të mirë</a></li>
+            	<li><a href="Page124.html" id="Page124">124. Kur kemi ndonjë dhembje në trup</a></li>
+            	<li><a href="Page125.html" id="Page125">125. Kur kemi frikë që po qëllojmë me sy (marrim msysh)</a></li>
+            	<li><a href="Page126.html" id="Page126">126. Kur frikësohemi</a></li>
+            	<li><a href="Page127.html" id="Page127">127. Kur therrim ndonjë kafshë ose presim kurban</a></li>
+            	<li><a href="Page128.html" id="Page128">128. Largimi i kurthave të shejtanit të mallkuar</a></li>
+            	<li><a href="Page129.html" id="Page129">129. Të kërkuarit falje dhe pendimi</a></li>
+            	<li><a href="Page130.html" id="Page130">130. Vlera e disa lutjeve</a></li>
+            	<li><a href="Page131.html" id="Page131">131. Si bënte tesbih pejgamberi s.a.v.s.</a></li>
+            	<li><a href="Page132.html" id="Page132">132. Disa punë të mira dhe rregulla të përgjithshme</a></li>
+	        </ul>
+
+      	</div>  <!-- /content -->
+
+		<div data-role="footer" id="myfooter" data-position="fixed" data-theme="e">
+			<div data-role="navbar">
+					<ul>
+						<li><a href="index.html" data-icon="grid" data-transition="none" class="ui-state-persist ui-btn-active">DUATË</a></li>
+						<li><a href="#Favourites" data-icon="star" data-transition="none">TË ZGJEDHURAT</a></li>
+					</ul>
+				</div><!-- /navbar -->
+		</div><!-- /footer -->
+
+    </div> <!-- /page -->
+
+
+
+
+
+      <div data-role="page" id="Favourites"> 
+      	<div data-role="header" data-add-back-btn="true" data-position="fixed">
+      	    <h1>TË ZGJEDHURAT</h1>
+    	</div>  <!-- /header -->
+
+      	<div data-role="content" data-theme="c">
+            <ul id="FavouritesTable" data-role="listview" data-theme="c" data-filter="true">
+
+			</ul>
+
+
+      	</div>  <!-- /content -->
+
+		<div data-role="footer" id="myfooter" data-position="fixed" data-theme="e">
+			<div data-role="navbar">
+					<ul>
+						<li><a href="index.html" data-icon="grid" data-transition="none">DUATË</a></li>
+						<li><a href="#Favourites" data-icon="star" data-transition="none" class="ui-state-persist ui-btn-active">TË ZGJEDHURAT</a></li>
+					</ul>
+				</div><!-- /navbar -->
+		</div><!-- /footer -->
+
+    </div> <!-- /page -->
+
+
+  </body>
+</html>

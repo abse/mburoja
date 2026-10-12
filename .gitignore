@@ -1,0 +1,15 @@
+# Dependencies and Cloudflare local state, including private history backups.
+node_modules/
+.wrangler/
+
+# Local credentials used by Node and Wrangler.
+.env
+.env.*
+.dev.vars
+.dev.vars.*
+
+# Local tool logs.
+*.log
+
+# Local agent guidance is intentionally not published.
+/AGENTS.md

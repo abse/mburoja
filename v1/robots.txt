@@ -1,0 +1,5 @@
+User-agent: *
+Disallow: /MP3/
+Disallow: /themes/
+
+Sitemap: https://mburoja.selmani.info/sitemap.xml

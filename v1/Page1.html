@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang='sq-MK'>
+  <head>
+  <title>Mburoja e Muslimanit | Fortress of the Muslim | Hisnul Muslim | Mburoja e Muslimanit Shqip</title>
+	<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no;" />
+	<meta name="keywords" content="Mburoja e Muslimanit, Dhikri i mengjesit, mburoja mp3, mburoja audio, namazi, dhikri, dhiker, ihsaan, mburoja shqip, Mburoja e Muslimanit shqip, Mburoja e Muslimanit, Mburoja e Muslimanit, Mburoja e Muslimanit, Mburoja e Muslimanit, Mburoja e Muslimanit, Mburoja e Muslimanit, Mburoja e Muslimanit, Mburoja e Muslimanit, Mburoja e Muslimanit, Mburoja e Muslimanit, Mburoja e Muslimanit, Mburoja e Muslimanit, Mburoja e Muslimanit, Mburoja e Muslimanit, Mburoja e Muslimanit, Mburoja e Muslimanit, Mburoja e Muslimanit, Mburoja e Muslimanit, Mburoja e Muslimanit, Mburoja e Muslimanit, Mburoja e Muslimanit, mburoja shqip, mburoja shqip, mburoja shqip, mburoja shqip, mburoja shqip, mburoja shqip, mburoja shqip, mburoja shqip, mburoja shqip">
+	<meta name="description" content="Mburoja e Muslimanit është një libër i begatë që përmbledh lutjet dhe dhikrin (përmendjen e Allahut) për të cilin ka nevojë muslimani gjatë ditës dhe natës si dhe në raste të ndryshme me të cilat përballet gjatë jetës së tij. Mburoja e Muslimanit, Mburoja e Muslimanit, Mburoja e Muslimanit, Mburoja e Muslimanit, Mburoja e Muslimanit, Mburoja e Muslimanit, Mburoja e Muslimanit, Mburoja e Muslimanit, Mburoja e Muslimanit, Mburoja e Muslimanit, Mburoja e Muslimanit, Mburoja e Muslimanit, Mburoja e Muslimanit, Mburoja e Muslimanit, Mburoja e Muslimanit, Mburoja e Muslimanit, Mburoja e Muslimanit, Mburoja e Muslimanit, Mburoja e Muslimanit, Mburoja e Muslimanit, Mburoja e Muslimanit">
+	<script src="jquery.min.js" type="text/javascript" charset="utf-8"></script>
+	<link rel="stylesheet" href="themes/mburoja.min.css">
+	<link rel="stylesheet" href="jquery.mobile.structure-1.0.1.min.css" type="text/css" charset="utf-8">
+	<script type="text/javascript" charset="utf-8" src="phonegap-1.4.1.js"></script>
+    <script type="text/javascript">
+        function onBodyLoad(){
+		}
+    	$(document).bind("mobileinit", function(){
+		    $.support.touchOverflow = true;
+		    $.mobile.touchOverflowEnabled = true;
+        });
+		
+		function getPageHref(theID){
+			return $("#"+theID).attr("href");
+		}
+		
+		function getPageTitle(theID){
+			return $("#"+theID).text();
+		}
+		
+        $("#Favourites").live('pagebeforeshow', function() {
+			currentList=getFavList();
+			$("#FavouritesTable").html("")
+	        for (var i=0; i < currentList.length; i++) {
+				$("#FavouritesTable").append('<li><a href="'+getPageHref(currentList[i])+'">'+getPageTitle(currentList[i])+'</a></li>');
+				$("#FavouritesTable").listview("refresh");
+			}
+		});
+		
+		function getFavList(){
+			myFavs=localStorage.getItem("myFavs");
+			if(myFavs==null)	{
+				localStorage.setItem("myFavs", JSON.stringify([])); 
+				myFavs=JSON.stringify([]);
+				console.log(myFavs)
+			}
+			return JSON.parse(myFavs);
+		}
+		
+		function addPageToFavs(theButton,pageID){
+			currentList=getFavList();
+			//check incase button fired twice
+			if(jQuery.inArray(pageID,currentList)==-1){
+				currentList.push(pageID)
+				currentList.sort(function(a,b){return (parseInt(a.replace(/[^0-9]/g,""))-parseInt(b.replace(/[^0-9]/g,"")))});
+				swapFavButtonRole(theButton)
+				localStorage.setItem("myFavs", JSON.stringify(currentList)); 
+			}
+		}
+		
+		function removePageToFavs(theButton,pageID){
+			currentList=getFavList();
+			itemPos=jQuery.inArray(pageID,currentList)
+			//check incase button fired twice
+			if(itemPos!=-1){
+				currentList.splice(itemPos,1)
+				swapFavButtonRole(theButton)
+				localStorage.setItem("myFavs", JSON.stringify(currentList)); 
+			}
+		}
+		
+		function swapFavButtonRole(theButton){
+			if(theButton.attr("data-role")=="favs-add"){
+				favButton=getFavButton("Remove");
+			}else{
+				favButton=getFavButton("Add");
+			}
+			parentHeader=theButton.parent();
+			$(theButton).replaceWith(favButton);
+			parentHeader.find("[data-type=button]").buttonMarkup();
+		}
+
+        $("a[data-role=favs-add]").live('click', function() {
+			addPageToFavs($(this),$.mobile.activePage.attr("id"))
+		});
+
+        $("a[data-role=favs-remove]").live('click', function() {
+			removePageToFavs($(this),$.mobile.activePage.attr("id"))
+		});
+
+        $("div[data-can-be-fav=true]").live('pagebeforeshow', function() {
+			currentList=getFavList();
+			pageID=$(this).attr("id");
+			if(jQuery.inArray(pageID,currentList)==-1){
+				favButton=getFavButton("Add");
+			}else{
+				favButton=getFavButton("Remove");
+			}
+			$(this).find("[data-role=header]").append(favButton).find("[data-type=button]").buttonMarkup();
+		})		
+
+		function getFavButton(type){
+			if(type=="Add"){
+				return '<a  class="ui-btn-right" data-type="button" data-icon="star" data-role="favs-add">Ruaje</a>'
+			}else{
+				return '<a  class="ui-btn-right" data-type="button" data-icon="delete" data-role="favs-remove">Fshije</a>'		
+			}
+		}
+
+
+<!--
+		$("div[data-has-audio=true]").live('pageshow', function() {
+			$(this).find(".playPauseButton").click(function() {     
+				audio = $.mobile.activePage.find("#"+$(this).data("audioElement")).get(0);
+				if (audio.paused) {
+					audio.play();
+				} else {
+					(audio).pause();
+				} 
+			});
+		})
+//-->
+
+
+    </script>
+	<script src="jquery.mobile-1.0.1.js" type="text/javascript" charset="utf-8"></script>
+    <style>
+		html, body{
+			margin:0;
+			padding:0;
+			width:100%;
+			height:100%;
+			border:0;
+			-webkit-touch-callout:none;
+			-webkit-user-select: none;
+		}
+		.navBar{
+			text-align:center;
+		}
+    </style>
+  </head>
+  <body onload="onBodyLoad()">
+  
+  
+<div data-role="page" id="Page1" data-add-back-btn="true" data-has-audio="true" data-can-be-fav="true">
+
+<div data-role="header" data-position="fixed" data-theme="e">
+      		<h1>Kur të zgjohemi nga gjumi</h1>
+      	</div><!-- /header -->
+
+      	<div data-role="content">	
+		<h2 align="right">الْحَمْدُ لِلَّهِ الَّذِي أَحْيَانَا بَعْدَ مَا أَمَاتَنَا وإِلَيْهِ النُّشُوْرُ</h2>
+		<p><strong>El-hamdu lil-láhil-ledhí ahjáná ba’de má emátená ve ilejhin-nushúr.</strong></p>
+		<p>Falënderimi i qoftë All-llahut, i Cili na ringjalli pasi që na bëri të vdekur dhe te Ai është tubimi.<p>
+		<p><small>Buhariu “Fet-hul Bari” 11/113 dhe Muslimi 4/2083.</small></p>
+
+	<div class="navBar">
+	<div class="playPauseButton" data-audio-element="myHTMLAudioElement1-1" data-role="button" data-theme="e" data-inline="true">Dëgjoje</div>
+	</div>
+    
+            <audio id="myHTMLAudioElement1-1">
+              <source src="MP3/1-1.mp3" type="audio/mp3" />
+            </audio>
+        
+     
+
+		
+		<h2 align="right">لاَ إِلَهَ إِلاَّ اللَّهُ وَحْدَهُ لاَشَرِيكَ لَهُ ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ ، وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ ، سُبْحَانَ اللَّهِ ، وَالْحَمْدُ لِلَّهِ ، وَلاَ إِلَهَ إِلاَّ اللَّهُ وَاللَّهُ أَكْبَرُ وَلاَحَوْلَ وَلاَ قُوَّةَ إِلاَّ بِاللَّهِ الْعَلِيِّ الْعَظِيمِ. رَبِّ اغْفِرْ لِي</h2>
+		<p><strong>Lá ilahe il-lAll-llahu vahdehu la sheríke leh, lehul-mulku ve lehul-hamdu ve huve alá kul-li shejin kadír. Subhán-All-llah vel-hamdu lil-lah ve lá iláhe il-laAll-llah vAll-llahu Ekber ve lá havle ve lá kuvvete il-lá bil-láhil Alijjil Adhím. Rabbigfir lí.</strong>
+		<p>S’ka të adhuruar tjetër përveç All-llahut Një dhe i pashoq, Atij i takon Sundimi dhe Lavdërimi dhe Ai është i Plotfuqishëm mbi çdo send. I Madhëruar qoftë All-llahu, Falënderimi i takon All-llahut, s’ka të adhuruar tjetër përveç All-llahut, All-llahu është më i Madhi, s’ka ndryshim e as fuqi pa ndihmën e All-llahut të Lartmadhëruar, pastaj lutet dhe thotë: "O Zoti im, më fal".</p>
+		<p><small>Kush e thotë këtë do t'i falen mëkatet, e nëse lutet do t'i pranohet lutja, e nëse ngritet merr abdes dhe falet do t'i pranohet namazi. Buhariu “Fet-hul-Bari” 3/39 dhe të tjerë, hadithin me këtë version e transmeton edhe Ibën Maxheh “Sahih Ibën Maxheh” 2/235.</small></p>
+			
+		<div class="navBar">
+       	<div class="playPauseButton" data-audio-element="myHTMLAudioElement1-2" data-role="button" data-inline="true" data-theme="e">Dëgjoje</div>
+		</div>
+
+           <audio id="myHTMLAudioElement1-2">
+           <source src="MP3/1-2.mp3" type="audio/mp3" />
+           </audio>
+        
+        
+
+		<h2 align="right">الْحَمْدُ لِلَّهِ الَّذِي عَافَانِي فِي جَسَدِي وَرَدَّ عَلَيَّ رُوْحِي وأَذِنَ لِي بِذِكْرِهِ</h2>
+		<p><strong>El-hamdu lil-láhil-ledhí á’fání fí xhesedí ve redde alejje rúhí ve edhine lí bi dhikrihi.</strong></p>
+		<p>Falënderimi i qoftë All-llahut i cili ma mbrojti trupin tim, ma ktheu shpirtin tim dhe ma mundësoi që ta përmendi Atë.</p>
+		<p><small>Tirmidhiu 5/473 “Sahih Et-Tirmidhi” 3/144.</small></p>
+		<p></p>
+
+		<div class="navBar">
+       	<div class="playPauseButton" data-audio-element="myHTMLAudioElement1-3" data-role="button" data-inline="true" data-theme="e">Dëgjoje</div>
+       	</div>
+
+
+           <audio id="myHTMLAudioElement1-3">
+           <source src="MP3/1-3.mp3" type="audio/mp3" />
+           </audio>
+
+<h2 align="right">إِنَّ فِي خَلْقِ السَّمَوَاتِ وَالْأَرْضِ وَاخْتِلَافِ اللَّيْلِ وَالنَّهَارِ لَآَيَاتٍ لِأُولِي الْأَلْبَابِ الَّذِينَ يَذْكُرُونَ اللَّهَ قِيَامًا وَقُعُودًا وَعَلَى جُنُوبِهِمْ وَيَتَفَكَّرُونَ فِي خَلْقِ السَّمَوَاتِ وَالْأَرْضِ رَبَّنَا مَا خَلَقْتَ هَذَا بَاطِلًا سُبْحَانَكَ فَقِنَا عَذَابَ النَّارِ رَبَّنَا إِنَّكَ مَنْ تُدْخِلِ النَّارَ فَقَدْ أَخْزَيْتَهُ وَمَا لِلظَّالِمِينَ مِنْ أَنْصَارٍ رَبَّنَا إِنَّنَا سَمِعْنَا مُنَادِيًا يُنَادِي لِلْإِيمَانِ أَنْ آَمِنُوا بِرَبِّكُمْ فَآَمَنَّا رَبَّنَا فَاغْفِرْ لَنَا ذُنُوبَنَا وَكَفِّرْ عَنَّا سَيِّئَاتِنَا وَتَوَفَّنَا مَعَ الْأَبْرَارِ رَبَّنَا وَآَتِنَا مَا وَعَدْتَنَا عَلَى رُسُلِكَ وَلَا تُخْزِنَا يَوْمَ الْقِيَامَةِ إِنَّكَ لَا تُخْلِفُ الْمِيعَادَ فَاسْتَجَابَ لَهُمْ رَبُّهُمْ أَنِّي لَا أُضِيعُ عَمَلَ عَامِلٍ مِنْكُمْ مِنْ ذَكَرٍ أَوْ أُنْثَى بَعْضُكُمْ مِنْ بَعْضٍ فَالَّذِينَ هَاجَرُوا وَأُخْرِجُوا مِنْ دِيَارِهِمْ وَأُوذُوا فِي سَبِيلِي وَقَاتَلُوا وَقُتِلُوا لَأُكَفِّرَنَّ عَنْهُمْ سَيِّئَاتِهِمْ وَلَأُدْخِلَنَّهُمْ جَنَّاتٍ تَجْرِي مِنْ تَحْتِهَا الْأَنْهَارُ ثَوَابًا مِنْ عِنْدِ اللَّهِ وَاللَّهُ عِنْدَهُ حُسْنُ الثَّوَابِ لَا يَغُرَّنَّكَ تَقَلُّبُ الَّذِينَ كَفَرُوا فِي الْبِلَادِ مَتَاعٌ قَلِيلٌ ثُمَّ مَأْوَاهُمْ جَهَنَّمُ وَبِئْسَ الْمِهَادُ لَكِنِ الَّذِينَ اتَّقَوْا رَبَّهُمْ لَهُمْ جَنَّاتٌ تَجْرِي مِنْ تَحْتِهَا الْأَنْهَارُ خَالِدِينَ فِيهَا نُزُلًا مِنْ عِنْدِ اللَّهِ وَمَا عِنْدَ اللَّهِ خَيْرٌ لِلْأَبْرَارِ وَإِنَّ مِنْ أَهْلِ الْكِتَابِ لَمَنْ يُؤْمِنُ بِاللَّهِ وَمَا أُنْزِلَ إِلَيْكُمْ وَمَا أُنْزِلَ إِلَيْهِمْ خَاشِعِينَ لِلَّهِ لَا يَشْتَرُونَ بِآَيَاتِ اللَّهِ ثَمَنًا قَلِيلًا أُولَئِكَ لَهُمْ أَجْرُهُمْ عِنْدَ رَبِّهِمْ إِنَّ اللَّهَ سَرِيعُ الْحِسَابِ يَا أَيُّهَا الَّذِينَ آَمَنُوا اصْبِرُوا وَصَابِرُوا وَرَابِطُوا وَاتَّقُوا اللَّهَ لَعَلَّكُمْ تُفْلِحُونَ</h2>
+<p>“Me të vërtetë në krijimin e qiejve dhe të tokës dhe në ndryshimin e natës dhe të ditës, ka argumente për ata që kanë arsye dhe intelekt. Për ata që e përmendin All-llahun me përkujtim kur janë në këmbë, kur janë ulur, kur janë të shtrirë dhe thellohen në mendime rreth krijimit të qiejve e të tokës, (duke thënë): "Zoti ynë, këtë nuk e krijove kot, i Madhëruar qofsh, ruana prej dënimit të zjarrit! Zoti ynë, atë që Ti e fute në zjarr, atë e ke poshtëruar; për mizorët nuk ka ndihmëtarë! Zoti ynë, ne dëgjuam një thirrës që ftonte për besim (e që thoshte): "Të besoni Zotin tuaj! E ne besuam! Zoti ynë, na i fal mëkatet tona dhe pas vdekjes na bashko me të mirët"! "Zoti ynë, jepna atë që nëpërmjet të dërguarve Tu na e premtove dhe mos na turpëro në Ditën e Kijametit; vërtet Ti je Ai që nuk e shkel premtimin. Zoti iu përgjigj lutjes së tyre (e tha): "Unë nuk ia humb mundin asnjërit prej jush, mashkull qoftë apo femër. Ju jeni njëri nga tjetri, por ata që u dëbuan nga shtëpitë e tyre dhe emigruan, u munduan vetëm pse ishin në rrugën Time, luftuan dhe u vranë, atyre do t’ua shlyej mëkatet e tyre dhe do t’i fus në Xhennete ku burojnë lumenj. Ai është shpërblim nga ana e All-llahut, se më i miri i shpërblimeve është tek All-llahu. Të mos mashtrojë bredhja nëpër qytetet e atyre që nuk besuan. Ajo është një kënaqësi e pakët, e pastaj vendi i tyre është xhehennemi që është vend mjerimi. Por ata që ia patën frikën Zotit të tyre, ata i kanë Xhennetet ku rrjedhin lumenj dhe aty janë përgjithmonë. Ajo është një pritje nga ana e All-llahut, e për të mirët, më e dobishmja është ajo që është tek All-llahu. Po edhe nga ithtarët e librit ka që e besojnë All-llahun, e besojnë atë që ju është shpallur juve dhe atë që u është shpallur atyre. Janë të bindur ndaj All-llahut dhe argumentet e All-llahut (në shpa-llje) nuk i shesin për pak send të kësaj jete. Të tillët kanë shpërblimin e vet tek Zoti i tyre, e All-llahu është që llogarinë e bën shpejt. O ju besimtarë, bëni durim, bëhuni të qëndrueshëm kundër armikut, rrini të përgatitur dhe frikojuni All-llahut, nëse dëshironi të shpëtoni!</p>
+<p><small>Ali Imran: 190-200, Buhariu “Fet-hul Bari” 8/237, Muslimi 1/530.</small></p>
+<p></p>
+
+		<div class="navBar">
+       	<div class="playPauseButton" data-audio-element="myHTMLAudioElement1-4" data-role="button" data-inline="true" data-theme="e">Dëgjoje</div>
+		</div>
+
+           <audio id="myHTMLAudioElement1-4">
+           <source src="MP3/1-4.mp3" type="audio/mp3" />
+           </audio>
+
+		
+      	</div><!-- /content -->
+	
+      	
+  	</div><!-- /page -->
+	
+	
+      <div data-role="page" id="Favourites"> 
+      	<div data-role="header" data-add-back-btn="true" data-position="fixed">
+      	    <h1>TË ZGJEDHURAT</h1>
+    	</div>  <!-- /header -->
+
+      	<div data-role="content" data-theme="c">
+            <ul id="FavouritesTable" data-role="listview" data-theme="c" data-filter="true">
+
+			</ul>
+
+
+      	</div>  <!-- /content -->
+
+		<div data-role="footer" id="myfooter" data-position="fixed" data-theme="e">
+			<div data-role="navbar">
+					<ul>
+						<li><a href="index.html" data-icon="grid" data-transition="none">DUATË</a></li>
+						<li><a href="#Favourites" data-icon="star" data-transition="none" class="ui-state-persist ui-btn-active">TË ZGJEDHURAT</a></li>
+					</ul>
+				</div><!-- /navbar -->
+		</div><!-- /footer -->
+
+    </div> <!-- /page -->
+
+
+  </body>
+</html>
