@@ -6,15 +6,15 @@ text together; line spacing is adjustable. Preferences persist in localStorage.
 
 ## Arabic fonts
 
-| Choice | Source | License or notice |
-| --- | --- | --- |
-| Hamdullah (default) | [Diyanet](https://kuran.diyanet.gov.tr/Yayinlar) | DIYANET-NOTICE.txt |
-| Kitab Regular | [Kitab](https://github.com/nuqayah/kitab-font) | KITAB-LICENSE.txt |
-| Amiri | [Amiri](https://github.com/aliftype/amiri) | FONT-LICENSE.txt |
-| Noto Naskh | [Google Fonts](https://github.com/google/fonts/tree/main/ofl/notonaskharabic) | NOTONASKHARABIC-LICENSE.txt |
-| Abay (Emine) | [Diyanet](https://kuran.diyanet.gov.tr/Yayinlar) | DIYANET-NOTICE.txt |
-| Lateef | [SIL](https://software.sil.org/lateef/) | LATEEF-LICENSE.txt |
-| System | Installed Arabic fonts | Device-provided |
+| Choice              | Source                                                                        | License or notice           |
+| ------------------- | ----------------------------------------------------------------------------- | --------------------------- |
+| Hamdullah (default) | [Diyanet](https://kuran.diyanet.gov.tr/Yayinlar)                              | DIYANET-NOTICE.txt          |
+| Kitab Regular       | [Kitab](https://github.com/nuqayah/kitab-font)                                | KITAB-LICENSE.txt           |
+| Amiri               | [Amiri](https://github.com/aliftype/amiri)                                    | FONT-LICENSE.txt            |
+| Noto Naskh          | [Google Fonts](https://github.com/google/fonts/tree/main/ofl/notonaskharabic) | NOTONASKHARABIC-LICENSE.txt |
+| Abay (Emine)        | [Diyanet](https://kuran.diyanet.gov.tr/Yayinlar)                              | DIYANET-NOTICE.txt          |
+| Lateef              | [SIL](https://software.sil.org/lateef/)                                       | LATEEF-LICENSE.txt          |
+| System              | Installed Arabic fonts                                                        | Device-provided             |
 
 Amiri also supplies the bilingual branding. Hamdullah's internal family name is
 Shaikh Hamdullah Mushaf; the selectable label is Hamdullah. Lateef uses the
@@ -32,8 +32,7 @@ Albanian characters, including accented letters.
 
 Keep font licenses and notices with redistributed files. Abay and Hamdullah
 contain no explicit redistribution license in their source downloads; copyright
-metadata reserves rights. DIYANET-NOTICE.txt documents their provenance and does
-not grant a license. Other bundled fonts retain their supplied open licenses.
+metadata reserves rights. Other bundled fonts retain their supplied open licenses.
 
 Font metrics differ: Abay and Hamdullah have heavier strokes, while Lateef has
 compact glyphs. Arabic shaping and diacritics depend on font support. Existing

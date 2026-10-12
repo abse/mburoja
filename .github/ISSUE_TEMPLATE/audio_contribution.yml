@@ -1,0 +1,50 @@
+name: Audio contribution
+description: Suggest a missing or replacement recording with its source and permission.
+title: "[Audio]: "
+labels: [audio]
+body:
+  - type: markdown
+    attributes:
+      value: "For a whole new audio collection, please start a Discussion first. See audio-report.json for missing recordings."
+  - type: input
+    id: chapter_file
+    attributes:
+      label: Chapter and intended filename
+      placeholder: "Example: Chapter 18, 18-11.mp3"
+    validations:
+      required: true
+  - type: input
+    id: narrator
+    attributes:
+      label: Narrator or recording creator
+      description: If unknown, say so.
+    validations:
+      required: true
+  - type: textarea
+    id: source
+    attributes:
+      label: Source and download link
+      description: Link to the original publisher and recording. Avoid links requiring a private login.
+    validations:
+      required: true
+  - type: textarea
+    id: permission
+    attributes:
+      label: Copyright owner and redistribution permission
+      description: Provide a license, permission statement, or explanation of your ownership. A downloadable file alone is not permission.
+    validations:
+      required: true
+  - type: textarea
+    id: match
+    attributes:
+      label: Prayer match and recording details
+      description: Confirm which prayer the audio covers; mention omissions, background noise, or other differences.
+    validations:
+      required: true
+  - type: checkboxes
+    id: rights
+    attributes:
+      label: Permission confirmation
+      options:
+        - label: I own this recording or have permission for it to be redistributed in this project.
+          required: true

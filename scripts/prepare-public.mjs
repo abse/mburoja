@@ -8,7 +8,7 @@ await mkdir(localDir,{recursive:true});
 const target=await mkdtemp(join(localDir,'public-release-'));
 const excluded=name=>['.git','.wrangler','node_modules','.codex','.agents'].includes(name)||/^\.(env|dev\.vars)(\.|$)/.test(name)||/\.(log|pem|key|pfx|p12)$/i.test(name);
 const filter=async source=>!excluded(source.split(/[\\/]/).at(-1));
-for(const name of ['.gitignore','README.md','package.json','package-lock.json','audio-report.json','wrangler.jsonc','scripts','shared','worker','v1','v2']){
+for(const name of ['.gitignore','.github','LICENSE','LICENSING.md','CONTRIBUTING.md','README.md','package.json','package-lock.json','audio-report.json','wrangler.jsonc','scripts','shared','worker','v1','v2']){
  await cp(join(root,name),join(target,name),{recursive:true,filter});
 }
 async function count(dir){let n=0;for(const entry of await readdir(dir,{withFileTypes:true}))n+=entry.isDirectory()?await count(join(dir,entry.name)):1;return n;}

@@ -26,36 +26,36 @@ npm run preview for localhost only. Stop with Ctrl+C.
 
 ## Structure
 
-| Path | Purpose |
-| --- | --- |
-| v1/ | First initial Version |
-| shared/chapters.json | Chapter content and audio references |
-| shared/render.js | HTML template |
-| shared/assets/ | Browser code, styles, logo, fonts, and licenses |
-| shared/site.config.json | Metadata and canonical origin |
-| scripts/ | Build, validation, preview, and release export |
-| worker/worker.js | Cloudflare asset fallback |
-| wrangler.jsonc | Cloudflare configuration |
-| v2/ | Generated site for Cloudflare and standalone hosting |
-| v2/audio/ | Authoritative MP3 recordings |
-| audio-report.json | Recording availability |
+| Path                    | Purpose                                              |
+| ----------------------- | ---------------------------------------------------- |
+| v1/                     | First initial Version                                |
+| shared/chapters.json    | Chapter content and audio references                 |
+| shared/render.js        | HTML template                                        |
+| shared/assets/          | Browser code, styles, logo, fonts, and licenses      |
+| shared/site.config.json | Metadata and canonical origin                        |
+| scripts/                | Build, validation, preview, and release export       |
+| worker/worker.js        | Cloudflare asset fallback                            |
+| wrangler.jsonc          | Cloudflare configuration                             |
+| v2/                     | Generated site for Cloudflare and standalone hosting |
+| v2/audio/               | Authoritative MP3 recordings                         |
+| audio-report.json       | Recording availability                               |
 
 Edit shared sources and rebuild. Do not edit generated HTML directly.
 Builds preserve v2/audio/ and original recording filenames.
 
 ## Commands
 
-| Command | Action |
-| --- | --- |
-| npm run build | Generate the site and audio report |
-| npm run check | Build and validate content, links, SEO, and asset sizes |
-| npm run preview | Build and preview on localhost |
-| npm run preview:lan | Build and preview on the local network |
-| npm run cf:dev | Run Wrangler locally |
-| npm run cf:login | Sign in to Cloudflare |
-| npm run cf:check | Validate and run a deployment dry run |
-| npm run cf:deploy | Validate and deploy |
-| npm run release:prepare | Export a clean release copy |
+| Command                 | Action                                                  |
+| ----------------------- | ------------------------------------------------------- |
+| npm run build           | Generate the site and audio report                      |
+| npm run check           | Build and validate content, links, SEO, and asset sizes |
+| npm run preview         | Build and preview on localhost                          |
+| npm run preview:lan     | Build and preview on the local network                  |
+| npm run cf:dev          | Run Wrangler locally                                    |
+| npm run cf:login        | Sign in to Cloudflare                                   |
+| npm run cf:check        | Validate and run a deployment dry run                   |
+| npm run cf:deploy       | Validate and deploy                                     |
+| npm run release:prepare | Export a clean release copy                             |
 
 ## Reading and recordings
 
@@ -89,7 +89,7 @@ npm run cf:deploy
 ```
 
 For standalone hosting, upload v2/ contents and configure equivalent security
-headers, cache rules, and a real 404 response. Cloudflare _headers and _redirects
+headers, cache rules, and a real 404 response. Cloudflare \_headers and \_redirects
 are not generally interpreted by other servers. Assets use readable filenames
 with cache revalidation; recordings use a one-day cache.
 
@@ -110,10 +110,23 @@ Tools using a verified property.
 
 ## Licenses
 
+Application code and project documentation are licensed under [MIT](LICENSE).
+Third-party text, recordings, fonts, artwork, and v1/ are excluded from that
+license; see [LICENSING.md](LICENSING.md) for scope and permissions.
+
 Keep bundled font licenses and notices with redistributed files. See
-[font information](shared/FONT-REVIEW.md) and DIYANET-NOTICE.txt for details.
+[font information](shared/FONT-REVIEW.md) for details.
 No repository-wide license is asserted for third-party text, translations,
 recordings, or artwork.
 
 Do not commit credentials or local environment files. Local agent guidance,
 dependencies, Wrangler state, and logs are excluded from Git.
+
+## Contributing
+
+Use [Issues](https://github.com/abse/mburoja/issues/new/choose) to report bugs or
+offer missing recordings. Use [Discussions](https://github.com/abse/mburoja/discussions)
+for questions, ideas, and new audio collections. Source links, attribution, and
+redistribution permission are required for contributed recordings.
+
+Code changes are welcome through pull requests. See [CONTRIBUTING.md](CONTRIBUTING.md).

@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Questions, ideas, or a new audio collection
+    url: https://github.com/abse/mburoja/discussions
+    about: Discuss suggestions or a whole recording collection before submitting files.

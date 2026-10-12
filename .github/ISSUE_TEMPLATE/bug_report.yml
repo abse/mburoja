@@ -1,0 +1,39 @@
+name: Bug report
+description: Report a problem with reading, navigation, themes, or audio.
+title: "[Bug]: "
+labels: [bug]
+body:
+  - type: input
+    id: page
+    attributes:
+      label: Page or chapter
+      description: Include a URL or chapter number.
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Device and browser
+      placeholder: "Example: Android phone, Chrome; Windows laptop, Firefox"
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: "1. Open a chapter. 2. Select a control. 3. Describe the result."
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+      description: Screenshots are welcome. Remove personal information first.
+    validations:
+      required: true
